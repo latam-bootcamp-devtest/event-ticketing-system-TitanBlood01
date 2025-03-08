@@ -20,6 +20,7 @@ export const createTicket = async (req, res) => {
         } else {
             const newavailableSeats = event.availableSeats - 1;
             event.availableSeats = newavailableSeats;
+            event.save()
         }
 
         const newTicket = new Ticket({
