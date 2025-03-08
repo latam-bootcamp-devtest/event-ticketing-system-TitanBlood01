@@ -53,11 +53,18 @@ export const getTickets = async (req, res) => {
 export const deleteTicketbyId = async (req, res) => {
     try {
         const {ticketId} = req.params;
+
+        const detectedTicket = await Ticket.findById(ticketId)
+        const eventfounded = await Event.findById(detectedTicket.eventId);
+        const recoverySeat = eventfounded.availableSeats + 1;
+        eventfounded.availableSeats = recoverySeat;
+        eventfounded.save();
+
         const deletedTicket = await Ticket.findByIdAndDelete(ticketId)
         if(!deletedTicket){
             res.status(404).json({message: "ticket no encontrado"})
         } else {
-            res.status(200).json({message: "Ticket Eliminado con exito"})
+            res.status(200).json({message: "Ticket Eliminado con exito, se aumento el numero de asientos"})
         }
     } catch (error) {
         console.error("error al eliminar el Ticket", error.message)
