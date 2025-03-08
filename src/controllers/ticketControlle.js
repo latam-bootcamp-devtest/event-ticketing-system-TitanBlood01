@@ -18,7 +18,7 @@ export const createTicket = async (req, res) => {
         if (event.availableSeats == 0){
             return res.status(400).json({message: "No hay mas asientos disponibles"})
         } else {
-            newavailableSeats = event.availableSeats - 1;
+            const newavailableSeats = event.availableSeats - 1;
             event.availableSeats = newavailableSeats;
         }
 
